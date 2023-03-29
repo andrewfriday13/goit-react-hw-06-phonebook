@@ -16,7 +16,7 @@ export const ContactForm = ({onSubmit}) => {
 
     onSubmit(values.name, values.number);
   };
-
+console.log('asd')
   return (  
     
     <Formik  
