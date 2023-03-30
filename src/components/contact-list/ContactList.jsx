@@ -3,6 +3,7 @@ import React from 'react';
 import css from './ContactListStyle.module.css'
 
 export const ContactList = ({contacts, filter, onRemove})=>{
+  console.log(contacts)
   return(
       <ul className={css.list__contact}>
         {contacts.length > 0 ? (
