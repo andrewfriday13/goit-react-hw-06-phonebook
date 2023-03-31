@@ -12,11 +12,11 @@ export const ContactForm = ({onSubmit}) => {
     number: '',
   }
   const handleSubmit = (values, { resetForm }) => {
-    resetForm();
-
     onSubmit(values.name, values.number);
+    console.log(values.name)
+    resetForm();
   };
-console.log('asd')
+
   return (  
     
     <Formik  

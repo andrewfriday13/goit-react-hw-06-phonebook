@@ -3,7 +3,7 @@ import { ContactForm } from './contact/ContactForm';
 import { ContactList } from './contact-list/ContactList';
 import { Filter } from './filter/Filter';
 import css from './app.module.css'
-
+import { addContact } from 'redux/contactsSlice';
 import { nanoid } from 'nanoid';
 
 const objContacts=[
@@ -40,7 +40,6 @@ export  const App = () => {
       name,
       number,
     };
-    console.log(number)
     setContacts(prev =>[contact, ...prev]);
   };
 
@@ -54,7 +53,8 @@ export  const App = () => {
 
     <div className={css.phonebook}>
     <h1>Phonebook</h1>
-    <ContactForm onSubmit={addContact} /> 
+    <ContactForm
+     onSubmit={addContact} /> 
     <h2>Contacts</h2>
     <Filter 
     onChange={filterContact} 
