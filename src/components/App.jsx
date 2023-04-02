@@ -1,68 +1,63 @@
-import {  useState, useEffect } from 'react';
+import {  useState } from 'react';
 import { ContactForm } from './contact/ContactForm';
 import { ContactList } from './contact-list/ContactList';
 import { Filter } from './filter/Filter';
 import css from './app.module.css'
-import { addContact } from 'redux/contactsSlice';
-import { nanoid } from 'nanoid';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact, removeContact } from 'redux/contacts/contactsAction';
+import { allContacts } from 'redux/contacts/contactsSelectors';
+import { getFilter } from 'redux/filter/filterSelectors';
 
-const objContacts=[
-  {id: nanoid(), name: 'Rosie Simpson', number: '459-12-56'},
-  {id: nanoid(), name: 'Hermione Kline', number: '443-89-12'},
-  {id: nanoid(), name: 'Eden Clements', number: '645-17-79'},
-  {id: nanoid(), name: 'Annie Copeland', number: '227-91-26'}
-]
 
-const oldContatcs = () => {
-  const localContact = localStorage.getItem('contacts')
-  if(localContact !== null){
-    const parseContact = JSON.parse(localContact)
-    return parseContact
-  }
- return objContacts
-}
+
 
 export  const App = () => {
-  const [contacts, setContacts ] = useState(oldContatcs)
-  const [filter, setFilter] = useState('')
 
-  useEffect(()=>{
-    window.localStorage.setItem('contacts', JSON.stringify(contacts))
-  },[contacts])
+  const contactsSecond = useSelector(allContacts)
+  const searchContact = useSelector(getFilter)
+  // const filters = useSelector(filterState)
 
 
-  const addContact = (name, number) => {
-    if (contacts.map(contact => contact.name).includes(name)) {
+ const dispatch = useDispatch()
+  const [filters, setFilter] = useState('')
+
+  // useEffect(()=>{
+  //   window.localStorage.setItem('contacts', JSON.stringify(contactsSecond))
+  // },[contactsSecond])
+
+
+  const addContacts = (name, number) => {
+    if (contactsSecond.map(contact => contact.name).includes(name)) {
       return alert(`${name} is alredy in contacts.`);
     }
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-    setContacts(prev =>[contact, ...prev]);
+    const action = addContact({name, number})
+    dispatch(action)
   };
 
-   const filterContact = event =>{
+   const filterContacts = event =>{
     setFilter(event.target.value)
+    // const filter = filterContact(event.target.value)
+    // dispatch(filter)
   }
-   const removeContact =(contactId)=>{
-    setContacts(prevState => prevState.filter(contact => contact.id !== contactId ))
+
+   const removeContacts =(contactId)=>{
+    const action = removeContact(contactId)
+    dispatch(action)
   }  
   return(
 
     <div className={css.phonebook}>
     <h1>Phonebook</h1>
     <ContactForm
-     onSubmit={addContact} /> 
+     onSubmit={addContacts} /> 
     <h2>Contacts</h2>
     <Filter 
-    onChange={filterContact} 
-    value={filter}/>
+    onChange={filterContacts} 
+    value={searchContact}/>
     <ContactList
-    onRemove={removeContact}
-    filter={filter}
-     contacts={contacts} />
+    onRemove={removeContacts}
+    filter={filters}
+     contacts={contactsSecond} />
 </div>
   )
 }

@@ -1,13 +1,19 @@
 import { PropTypes } from "prop-types"
 import React from 'react';
 import css from './ContactListStyle.module.css'
+import { useSelector } from "react-redux";
+import { allContacts } from "redux/contacts/contactsSelectors";
 
-export const ContactList = ({contacts, filter, onRemove})=>{
+
+export const ContactList = ({ filter, onRemove})=>{
+ const contactSecond =useSelector(allContacts)
+
+
 
   return(
       <ul className={css.list__contact}>
-        {contacts.length > 0 ? (
-        contacts.filter(({name})=>
+        {contactSecond.length > 0 ? (
+        contactSecond.filter(({name})=>
         name.toLowerCase().includes(filter.toLowerCase())).map(({id, name, number}) =>
           <li key={id}
           className={css.items__contact}
