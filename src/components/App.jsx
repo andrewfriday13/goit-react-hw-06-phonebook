@@ -1,12 +1,14 @@
-import {  useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { ContactForm } from './contact/ContactForm';
 import { ContactList } from './contact-list/ContactList';
 import { Filter } from './filter/Filter';
 import css from './app.module.css'
-import { useSelector, useDispatch } from 'react-redux';
+
 import { addContact, removeContact } from 'redux/contacts/contactsAction';
 import { allContacts } from 'redux/contacts/contactsSelectors';
 import { getFilter } from 'redux/filter/filterSelectors';
+import { searchContacts } from 'redux/filter/filterActions';
 
 
 
@@ -15,16 +17,11 @@ export  const App = () => {
 
   const contactsSecond = useSelector(allContacts)
   const searchContact = useSelector(getFilter)
-  // const filters = useSelector(filterState)
 
 
  const dispatch = useDispatch()
-  const [filters, setFilter] = useState('')
-
-  // useEffect(()=>{
-  //   window.localStorage.setItem('contacts', JSON.stringify(contactsSecond))
-  // },[contactsSecond])
-
+ const secondFilter = useSelector(getFilter)
+ console.log(secondFilter)
 
   const addContacts = (name, number) => {
     if (contactsSecond.map(contact => contact.name).includes(name)) {
@@ -35,15 +32,15 @@ export  const App = () => {
   };
 
    const filterContacts = event =>{
-    setFilter(event.target.value)
-    // const filter = filterContact(event.target.value)
-    // dispatch(filter)
+    const filter = searchContacts(event.target.value)
+    dispatch(filter)
   }
 
    const removeContacts =(contactId)=>{
     const action = removeContact(contactId)
     dispatch(action)
-  }  
+  } 
+
   return(
 
     <div className={css.phonebook}>
@@ -56,7 +53,8 @@ export  const App = () => {
     value={searchContact}/>
     <ContactList
     onRemove={removeContacts}
-    filter={filters}
+    filter={secondFilter}
+    //  тут зверху
      contacts={contactsSecond} />
 </div>
   )

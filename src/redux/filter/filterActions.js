@@ -1,7 +1,7 @@
 import { createAction } from "@reduxjs/toolkit"
 import { FILTER_CONTACT } from "./filterTypes"
 
-export const filterContacts = name =>{
+export const searchContacts = name =>{
     return{
         type: FILTER_CONTACT,
         payload: name,
