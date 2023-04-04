@@ -15,7 +15,7 @@ const initialState =[
 
 const contactsSlice = createSlice({
     name: 'contacts',
-    initialState: initialState,
+    initialState: {contacts:[]},
     reducers:{
         addContact:{
             reducer(state, action){
