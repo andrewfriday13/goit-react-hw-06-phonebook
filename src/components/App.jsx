@@ -5,11 +5,11 @@ import { ContactList } from './contact-list/ContactList';
 import { Filter } from './filter/Filter';
 import css from './app.module.css'
 
-import { addContact, removeContact } from 'redux/contacts/contactsAction';
-import { allContacts } from 'redux/contacts/contactsSelectors';
-import { getFilter } from 'redux/filter/filterSelectors';
-import { searchContacts } from 'redux/filter/filterActions';
+// import { addContact, removeContact } from 'redux/contacts/contactsAction';
+import { allContacts,getFilter } from 'redux/selectors';
 
+import { searchContacts } from 'redux/filter/filterActions';
+import { addContact, removeContact } from 'redux/contacstSlice';
 
 
 
@@ -18,10 +18,10 @@ export  const App = () => {
   const contactsSecond = useSelector(allContacts)
   const searchContact = useSelector(getFilter)
 
-
+  console.log(contactsSecond)
  const dispatch = useDispatch()
  const secondFilter = useSelector(getFilter)
- console.log(secondFilter)
+
 
   const addContacts = (name, number) => {
     if (contactsSecond.map(contact => contact.name).includes(name)) {

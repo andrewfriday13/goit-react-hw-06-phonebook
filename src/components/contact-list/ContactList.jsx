@@ -2,13 +2,11 @@ import { PropTypes } from "prop-types"
 import React from 'react';
 import css from './ContactListStyle.module.css'
 import { useSelector } from "react-redux";
-import { allContacts } from "redux/contacts/contactsSelectors";
+import { allContacts } from "redux/selectors";
 
 
 export const ContactList = ({ filter, onRemove})=>{
  const contactSecond =useSelector(allContacts)
-
-
 
   return(
       <ul className={css.list__contact}>
@@ -30,7 +28,7 @@ export const ContactList = ({ filter, onRemove})=>{
 }
 
 ContactList.propTypes ={
-  contacts: PropTypes.arrayOf(PropTypes.shape({
+  contactSecond: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     number: PropTypes.string.isRequired,
