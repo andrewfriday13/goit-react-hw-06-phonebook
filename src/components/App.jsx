@@ -8,7 +8,7 @@ import css from './app.module.css'
 // import { addContact, removeContact } from 'redux/contacts/contactsAction';
 import { allContacts,getFilter } from 'redux/selectors';
 
-import { searchContacts } from 'redux/filter/filterActions';
+import { searchContacts } from 'redux/filterSlice';
 import { addContact, removeContact } from 'redux/contacstSlice';
 
 
@@ -18,13 +18,14 @@ export  const App = () => {
   const contactsSecond = useSelector(allContacts)
   const searchContact = useSelector(getFilter)
 
-  console.log(contactsSecond)
+
  const dispatch = useDispatch()
- const secondFilter = useSelector(getFilter)
+
 
 
   const addContacts = (name, number) => {
-    if (contactsSecond.map(contact => contact.name).includes(name)) {
+    const checkContact = contactsSecond.map(contact => contact.name).includes(name)
+    if (checkContact) {
       return alert(`${name} is alredy in contacts.`);
     }
     const action = addContact({name, number})
@@ -33,6 +34,7 @@ export  const App = () => {
 
    const filterContacts = event =>{
     const filter = searchContacts(event.target.value)
+    // console.log(filter)
     dispatch(filter)
   }
 
@@ -45,17 +47,23 @@ export  const App = () => {
 
     <div className={css.phonebook}>
     <h1>Phonebook</h1>
+
     <ContactForm
-     onSubmit={addContacts} /> 
+      onSubmit={addContacts}
+     /> 
+
     <h2>Contacts</h2>
+
     <Filter 
-    onChange={filterContacts} 
-    value={searchContact}/>
+      onChange={filterContacts } 
+      value={searchContact}
+    />
+
     <ContactList
-    onRemove={removeContacts}
-    filter={secondFilter}
-    //  тут зверху
-     contacts={contactsSecond} />
+      onRemove={removeContacts}
+      filter={searchContact}
+      contacts={contactsSecond}
+    />
 </div>
   )
 }
